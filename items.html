@@ -7,10 +7,87 @@
     <title>Examen THYP du 7 décembre 2020 </title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
+<script>
+    window.onload = function(){
+        this.showItems();
+     }
+</script>
 <body>
-<h1>TEST</h1>
-
+    <h2 style="text-align: center; color: blue;">La liste de la collection 2</h2>
+    <div id='dataCollection2'></div>
 
 </body>
 
+<script>
+
+       
+    // fonction permettre de récupérer les données de l'API 
+    function getData(){
+        let urlDataApi="https://polemika.univ-paris8.fr/omk/api/items?item_set_id=2";
+        return urlDataApi;
+    }
+
+    // fonction permettre d afficher la liste des items 
+    function showItems(){
+        let urlData=this.getData();
+
+      d3.json(urlData).then(function(data) {
+      var e= d3.select('#dataCollection2').selectAll('div').data(data).enter().append(e)
+                         .attr("style"," ")
+         e.append("hr")    
+         e.append("h4").attr("style","display: block; color: red")
+           .html(d=>{ 
+            let v=d['o:id']
+            return v;
+    
+          })
+          .on("click",function(d){
+            showItem(d);
+          });            
+         e.append("h4")
+           .html(d=>{ 
+            let v=d["dcterms:title"][0]["@value"]
+            return v;
+          })
+          .on("click",function(d){
+            showItem(d);
+          });
+
+          e.append("h4").attr("style","display: block; color: green")
+                .html(d=>{ 
+                //   console.log(d);
+                  let v=d["dcterms:subject"][0]["@value"]
+                  
+                  return v;
+                        })
+                .on("click",function(d){
+                            show(d);
+                                       })                              
+        // e.append("img").attr("id","image").attr("style","border-style: none;display: block;margin-left: auto;margin-right: auto; width: 50%;")
+        // .attr('src', d=>{
+        //     return d["o:media"][0]["@id"];
+        //       })       
+        
+        e.append("h4").attr("style","display: block; color: blue")
+                .html(d=>{ 
+                //   console.log(d);
+                  let v=d["o:media"][0]["@id"]
+                  
+                  return v;
+                        })
+                .on("click",function(d){
+                            show(d);
+                                       })  
+        
+        e.append("hr")                                
+
+          
+    });
+
+    }
+ 
+    function showItem(d){
+      console.log(d);
+    }
+    </script>
 </html>
